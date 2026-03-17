@@ -1,57 +1,177 @@
-Binance Automation Tool (Selenium)
-這是一個基於 Selenium 的 Python 自動化工具，專為 Binance (幣安) 交易所設計。本工具包含三大功能模組：市場價格與市值查詢、連續交易自動化按鍵，以及詳細運作流程展示版本。
 
-🚀 功能特點
-多幣種即時查詢：支援同時輸入多個交易對（如 BTC BNB ETH），自動補全預設本位為 USDT。
 
-深層資訊抓取：除了價格與漲跌幅，還能抓取市值排名與市場主導指數 (Dominance Index)。
+---
 
-自動化交易腳本：支援登入後連續執行市價買入或賣出的模擬點擊。
+# Binance Automation Tool (Selenium)
 
-智能排序：查詢結束後，系統會自動根據市值排名（Rank）對結果進行重新排序輸出。
+A Python-based automation toolkit built with Selenium, designed for interacting with the Binance exchange.
+This project provides tools for **market data scraping**, **automated trading interactions**, and **debug visualization**.
 
-🛠️ 環境需求
-Python 3.x
+---
 
-依賴庫：
+## 🚀 Features
 
-Bash
+### 📊 Multi-Symbol Market Query
+
+* Supports querying multiple trading pairs at once (e.g. `BTC BNB ETH`)
+* Automatically appends default quote asset (`USDT`)
+* Accepts custom pairs (e.g. `ETH/BTC`)
+
+### 📈 Advanced Market Data Extraction
+
+* Real-time price
+* 24h price change (%)
+* Market cap ranking (Rank)
+* Dominance Index
+
+### 🤖 Automated Trading Actions
+
+* Simulates continuous buy/sell actions
+* Supports market orders via UI interaction
+* User-controlled parameters:
+
+  * Trading pair
+  * Order type (Buy/Sell)
+  * Number of executions
+  * Total amount per trade
+
+### 🔍 Debug Mode (Developer-Friendly)
+
+* Step-by-step data extraction logs
+* Displays intermediate dictionaries and processing flow
+* Useful for debugging selectors and data parsing logic
+
+### 📑 Smart Result Sorting
+
+* Automatically sorts queried results by **market cap rank**
+
+---
+
+## 🛠️ Requirements
+
+* Python 3.x
+* Google Chrome
+* ChromeDriver (must match your Chrome version)
+
+### Install dependencies:
+
+```bash
 pip install selenium
-瀏覽器驅動：請確保已安裝與 Chrome 版本相符的 ChromeDriver。
+```
 
-📖 使用說明
-1. 價格與市值查詢 (Binance 查詢價格與市值排名)
-執行程式碼後，在輸入框輸入你想查詢的幣種：
+---
 
-輸入格式：BTC (預設 USDT)、ETH/BTC (指定本位) 或 BNB SOL DOGE (空格分隔多個)。
+## 📖 Usage Guide
 
-注意：程式運行時會最大化視窗以確保元件定位準確，請勿在執行期間縮小或更改視窗大小。
+### 1. Market Data Query
 
-2. 連續交易自動化 (交易連續按鍵自動化)
-此功能需要使用者手動干預進行登錄：
+Run the script and input symbols:
 
-執行程式碼，瀏覽器會自動開啟至交易頁面。
+```
+BTC
+ETH/BTC
+BNB SOL DOGE
+```
 
-請在瀏覽器中手動完成登錄與安全驗證。
+#### Notes:
 
-在終端機輸入：
+* Default quote asset: `USDT`
+* Browser will **maximize automatically** for accurate element detection
+* Do NOT resize or minimize during execution
 
-交易對 (如 BNB/USDT)
+---
 
-買入或賣出
+### 2. Automated Trading
 
-連續交易次數
+⚠️ Requires manual login
 
-每次交易的總成交額 (Total)
+#### Steps:
 
-程式將自動定位輸入框並模擬點擊交易按鈕。
+1. Run the script → opens Binance trading page
+2. Manually complete:
 
-3. 詳細偵錯版本 (運作細節展示版本)
-如果你是開發者，可以使用此版本。它會在每一步抓取資料後，即時印出當前的數據字典（Dictionary）與處理過程，方便排查定位錯誤或資料處理邏輯。
+   * Login
+   * 2FA / security verification
+3. Enter parameters in terminal:
 
-⚠️ 注意事項
-法律與風險提示：本程式僅供學習與技術研究使用，不構成任何投資建議。自動化交易具有高風險，請務必在熟悉操作後於小額或模擬環境測試。
+   * Trading pair (e.g. `BNB/USDT`)
+   * Buy or Sell
+   * Number of repetitions
+   * Total amount per trade
 
-網頁結構變動：Selenium 依賴於網頁的 HTML CLASS_NAME 或 CSS_SELECTOR。若幣安官網更新介面，可能導致定位失效，需手動更新代碼中的選擇器。
+The bot will:
 
-延時設置：代碼中包含 time.sleep(0.15) 以等待網頁渲染，若網路環境較慢，建議適度調高此數值。
+* Locate input fields
+* Simulate clicks
+* Execute trades continuously
+
+---
+
+### 3. Debug Mode
+
+Use the debug version to:
+
+* Print each step’s data
+* Inspect parsed results
+* Trace logic issues
+
+Ideal for:
+
+* Developers modifying selectors
+* Handling UI changes
+
+---
+
+## ⚠️ Disclaimer
+
+### Legal & Risk Notice
+
+This project is for **educational and research purposes only**.
+It does **NOT** constitute financial or investment advice.
+
+Automated trading involves **significant financial risk**.
+Always test in:
+
+* Small amounts
+* Demo environments
+
+---
+
+## ⚠️ Important Notes
+
+### 1. UI Dependency
+
+Selenium relies on:
+
+* `CLASS_NAME`
+* `CSS_SELECTOR`
+
+If Binance updates its UI, selectors may break.
+You must manually update them.
+
+---
+
+### 2. Timing Issues
+
+The script uses:
+
+```python
+time.sleep(0.15)
+```
+
+If you experience instability:
+
+* Increase delay based on network speed
+
+---
+
+## 💡 Suggested Improvements (Optional)
+
+* Replace `time.sleep()` with `WebDriverWait` (more stable)
+* Add exception handling for failed element lookup
+* Support headless mode
+* Integrate Binance API for hybrid approach (faster + safer)
+
+---
+
+
